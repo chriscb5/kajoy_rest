@@ -27,4 +27,11 @@ public class CursoController {
     Curso newCurso(@RequestBody Curso newCurso) {
         return repository.save(newCurso);
     }
+
+    @GetMapping("/cursos/{id}")
+    Curso one(@PathVariable Long id) {
+
+        return repository.findById(id)
+                .orElseThrow(() -> new CursoNotFoundException(id));
+    }
 }
