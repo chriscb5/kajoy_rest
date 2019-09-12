@@ -34,4 +34,24 @@ public class CursoController {
         return repository.findById(id)
                 .orElseThrow(() -> new CursoNotFoundException(id));
     }
+
+    @PutMapping("/employees/{id}")
+    Curso replaceEmployee(@RequestBody Curso newCurso, @PathVariable Long id) {
+
+        return repository.findById(id)
+                .map(curso -> {
+                    curso.setName(newCurso.getGrado());
+                    curso.setRole(newCurso.getParalelo());
+                    return repository.save(curso);
+                })
+                .orElseGet(() -> {
+                    newCurso.setId(id);
+                    return repository.save(newCurso);
+                });
+    }
+
+    @DeleteMapping("/employees/{id}")
+    void deleteEmployee(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
 }
